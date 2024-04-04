@@ -1,11 +1,13 @@
 import http from 'k6/http';
 
 export const options = {
-    // A number specifying the number of VUs to run concurrently.
-    vus: 10,
-    // A string specifying the total duration of the test run.
-    duration: '30s',
+    stages: [
+        { duration: '2m', target: 100 }, // Постепенно увеличаване на потребителите до 100
+        { duration: '5m', target: 100 }, // Държим на 100 потребители за 5 минути
+        { duration: '2m', target: 0 },   // Разтоварване
+    ],
 };
+
 
 export default function () {
     const url = 'http://localhost:8080/login';
